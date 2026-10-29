@@ -39,7 +39,7 @@ def test_clean_invoice_passes_validation():
 
 
 def test_wrong_invoice_is_caught_on_every_error():
-    inv = extract_invoice(read("inv_wrong_total.txt"))
+    inv = extract_invoice(read("inv_wrong.txt"))
     msgs = " | ".join(i.message for i in validate(inv))
     assert inv.currency == "GBP"
     assert "Line 'Backup add-on'" in msgs          # 2 x 10 = 20, not 25

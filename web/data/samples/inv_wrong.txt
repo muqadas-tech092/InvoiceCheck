@@ -1,0 +1,15 @@
+Cedar Cloud Hosting Ltd
+
+INVOICE
+Invoice Number: CC-8841
+Invoice Date: 12 October 2026
+Due Date: 05 October 2026
+
+Description               Qty   Unit Price   Amount
+Managed hosting (monthly)  3      £80.00     £240.00
+Domain renewal             1      £12.00      £12.00
+Backup add-on              2      £10.00      £25.00
+
+Subtotal: £270.00
+VAT (20%): £54.00
+Total: £330.00

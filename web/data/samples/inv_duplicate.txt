@@ -1,0 +1,16 @@
+Brightline Print Studio
+12 Example Street, Sampletown
+
+INVOICE
+Invoice No: BP-2026-0412
+Invoice Date: 2026-10-05
+Due Date: 2026-11-04
+
+Description               Qty   Unit Price   Amount
+Business cards (500)       2      $45.00      $90.00
+Flyers A5 (1000)           1     $120.00     $120.00
+Delivery                   1      $15.00      $15.00
+
+Subtotal: $225.00
+Tax (10%): $22.50
+Total Due: $247.50

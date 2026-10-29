@@ -1,0 +1,178 @@
+{
+ "docs": {
+  "inv_clean.txt": "Brightline Print Studio\n12 Example Street, Sampletown\n\nINVOICE\nInvoice No: BP-2026-0412\nInvoice Date: 2026-10-05\nDue Date: 2026-11-04\n\nBill To: Northwind Digital (sample company)\n\nDescription               Qty   Unit Price   Amount\nBusiness cards (500)       2      $45.00      $90.00\nFlyers A5 (1000)           1     $120.00     $120.00\nDelivery                   1      $15.00      $15.00\n\nSubtotal: $225.00\nTax (10%): $22.50\nTotal Due: $247.50\n",
+  "inv_date.txt": "From: Lakeview Office Supplies\nINVOICE\nInvoice #: LV/778\nDate: 03/04/2026\nDue: 03/05/2026\n\nPaper A4 (box)             4      $18.50       $74.00\nPens (pack of 50)          2       $9.00       $18.00\n\nSubtotal: $92.00\nTax: $0.00\nTotal: $92.00\n",
+  "inv_duplicate.txt": "Brightline Print Studio\n12 Example Street, Sampletown\n\nINVOICE\nInvoice No: BP-2026-0412\nInvoice Date: 2026-10-05\nDue Date: 2026-11-04\n\nDescription               Qty   Unit Price   Amount\nBusiness cards (500)       2      $45.00      $90.00\nFlyers A5 (1000)           1     $120.00     $120.00\nDelivery                   1      $15.00      $15.00\n\nSubtotal: $225.00\nTax (10%): $22.50\nTotal Due: $247.50\n",
+  "inv_wrong.txt": "Cedar Cloud Hosting Ltd\n\nINVOICE\nInvoice Number: CC-8841\nInvoice Date: 12 October 2026\nDue Date: 05 October 2026\n\nDescription               Qty   Unit Price   Amount\nManaged hosting (monthly)  3      \u00a380.00     \u00a3240.00\nDomain renewal             1      \u00a312.00      \u00a312.00\nBackup add-on              2      \u00a310.00      \u00a325.00\n\nSubtotal: \u00a3270.00\nVAT (20%): \u00a354.00\nTotal: \u00a3330.00\n",
+  "pkr": "Karachi Stationers\nInvoice No. KS-204\nDate: 5 March 2026\nNotebook (A5)   10   Rs. 150.00   Rs. 1,500.00\nMarker set      4    Rs. 250.00   Rs. 1,000.00\nSubtotal: Rs. 2,500.00\nTax (17%): Rs. 425.00\nTotal: Rs. 2,925.00",
+  "eur": "Berlin Design GmbH\nRechnung / Invoice Number: BD-77\nDate: 2026-09-30\nDue date: 2026-10-30\nLogo design    1   EUR 400.00   EUR 400.00\nSubtotal: EUR 400.00\nVAT (19%): EUR 76.00\nTotal: EUR 476.00",
+  "nolines": "ACME Consulting\nINVOICE # 1234\nInvoice date: March 5, 2026\nConsulting services - October\nTotal: $1,250.00",
+  "badtax": "Berlin Design GmbH\nRechnung / Invoice Number: BD-77\nDate: 2026-09-30\nDue date: 2026-10-30\nLogo design    1   EUR 400.00   EUR 400.00\nSubtotal: EUR 400.00\nVAT (19%): EUR 80.00\nTotal: EUR 480.00"
+ },
+ "expected": [
+  {
+   "name": "inv_clean.txt",
+   "vendor": "Brightline Print Studio",
+   "number": "BP-2026-0412",
+   "date": "2026-10-05",
+   "due": "2026-11-04",
+   "currency": "USD",
+   "items": 3,
+   "subtotal": "225.00",
+   "tax": "22.50",
+   "taxRate": "10",
+   "total": "247.50",
+   "status": "OK",
+   "issues": []
+  },
+  {
+   "name": "inv_date.txt",
+   "vendor": "Lakeview Office Supplies",
+   "number": "LV/778",
+   "date": "2026-04-03",
+   "due": "2026-05-03",
+   "currency": "USD",
+   "items": 2,
+   "subtotal": "92.00",
+   "tax": "0.00",
+   "taxRate": null,
+   "total": "92.00",
+   "status": "Review",
+   "issues": [
+    "Date '03/04/2026' is ambiguous (day/month or month/day); read as day/month.",
+    "Date '03/05/2026' is ambiguous (day/month or month/day); read as day/month."
+   ]
+  },
+  {
+   "name": "inv_duplicate.txt",
+   "vendor": "Brightline Print Studio",
+   "number": "BP-2026-0412",
+   "date": "2026-10-05",
+   "due": "2026-11-04",
+   "currency": "USD",
+   "items": 3,
+   "subtotal": "225.00",
+   "tax": "22.50",
+   "taxRate": "10",
+   "total": "247.50",
+   "status": "OK",
+   "issues": []
+  },
+  {
+   "name": "inv_wrong.txt",
+   "vendor": "Cedar Cloud Hosting Ltd",
+   "number": "CC-8841",
+   "date": "2026-10-12",
+   "due": "2026-10-05",
+   "currency": "GBP",
+   "items": 3,
+   "subtotal": "270.00",
+   "tax": "54.00",
+   "taxRate": "20",
+   "total": "330.00",
+   "status": "Needs fixing",
+   "issues": [
+    "Due date (2026-10-05) is before the invoice date (2026-10-12).",
+    "Line 'Backup add-on': 2 x 10.00 = 20.00, but the invoice says 25.00.",
+    "Line items add up to 277.00, but the subtotal says 270.00.",
+    "Subtotal 270.00 + tax 54.00 = 324.00, but the total says 330.00."
+   ]
+  },
+  {
+   "name": "pkr",
+   "vendor": "Karachi Stationers",
+   "number": "KS-204",
+   "date": "2026-03-05",
+   "due": null,
+   "currency": "PKR",
+   "items": 2,
+   "subtotal": "2500.00",
+   "tax": "425.00",
+   "taxRate": "17",
+   "total": "2925.00",
+   "status": "OK",
+   "issues": []
+  },
+  {
+   "name": "eur",
+   "vendor": "Berlin Design GmbH",
+   "number": "BD-77",
+   "date": "2026-09-30",
+   "due": "2026-10-30",
+   "currency": "EUR",
+   "items": 1,
+   "subtotal": "400.00",
+   "tax": "76.00",
+   "taxRate": "19",
+   "total": "476.00",
+   "status": "OK",
+   "issues": []
+  },
+  {
+   "name": "nolines",
+   "vendor": "ACME Consulting",
+   "number": "1234",
+   "date": "2026-03-05",
+   "due": null,
+   "currency": "USD",
+   "items": 0,
+   "subtotal": null,
+   "tax": null,
+   "taxRate": null,
+   "total": "1250.00",
+   "status": "Review",
+   "issues": [
+    "No line items could be read."
+   ]
+  },
+  {
+   "name": "badtax",
+   "vendor": "Berlin Design GmbH",
+   "number": "BD-77",
+   "date": "2026-09-30",
+   "due": "2026-10-30",
+   "currency": "EUR",
+   "items": 1,
+   "subtotal": "400.00",
+   "tax": "80.00",
+   "taxRate": "19",
+   "total": "480.00",
+   "status": "Review",
+   "issues": [
+    "Tax rate 19% of 400.00 is 76.00, but the invoice says 80.00."
+   ]
+  }
+ ],
+ "batch": [
+  {
+   "source": "inv_clean.txt",
+   "status": "OK",
+   "issues": []
+  },
+  {
+   "source": "inv_date.txt",
+   "status": "Review",
+   "issues": [
+    "Date '03/04/2026' is ambiguous (day/month or month/day); read as day/month.",
+    "Date '03/05/2026' is ambiguous (day/month or month/day); read as day/month."
+   ]
+  },
+  {
+   "source": "inv_duplicate.txt",
+   "status": "Needs fixing",
+   "issues": [
+    "Duplicate invoice number BP-2026-0412 from Brightline Print Studio (also in inv_clean.txt)."
+   ]
+  },
+  {
+   "source": "inv_wrong.txt",
+   "status": "Needs fixing",
+   "issues": [
+    "Due date (2026-10-05) is before the invoice date (2026-10-12).",
+    "Line 'Backup add-on': 2 x 10.00 = 20.00, but the invoice says 25.00.",
+    "Line items add up to 277.00, but the subtotal says 270.00.",
+    "Subtotal 270.00 + tax 54.00 = 324.00, but the total says 330.00."
+   ]
+  }
+ ]
+}

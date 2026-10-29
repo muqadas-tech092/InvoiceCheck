@@ -26,6 +26,14 @@ pytest
 ```
 19 tests cover money parsing, dates, extraction on six invoice layouts, every validation rule, duplicates, real PDF text extraction, scanned or corrupt PDFs and a headless run of the UI.
 
+## Web version (Netlify)
+`web/` is a static JavaScript port of the same logic, so the tool can be hosted on Netlify (which cannot run Streamlit).
+- **Private by design:** invoices are read in the visitor's browser and never uploaded. PDF reading uses the bundled PDF.js library (Apache-2.0, in `web/vendor/`), so no third-party site is contacted. `netlify.toml` sends a strict Content-Security-Policy that enforces this.
+- **Same results as the Python version:** money is held in integer cents, and the browser tests compare every extracted field, status and warning message against the Python output on eight invoices (a parity check).
+- **Run locally:** `python -m http.server --directory web 8000`, then open http://localhost:8000. No build step.
+- **Tests:** open http://localhost:8000/tests/test.html (33 tests, including real PDF extraction, a scanned PDF, a corrupt PDF, UI tests on the real page and a hostile-invoice test).
+- **Deploy:** connect the repo to Netlify. `netlify.toml` already sets the publish folder to `web`.
+
 ## Limits (honest list)
 - Extraction is pattern-based. It works on common layouts (description, quantity, unit price, amount) but unusual designs may need review; the tool tells you when it could not read something.
 - No OCR: scanned invoices must be converted to text first.

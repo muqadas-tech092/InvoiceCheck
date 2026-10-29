@@ -1,0 +1,12 @@
+From: Lakeview Office Supplies
+INVOICE
+Invoice #: LV/778
+Date: 03/04/2026
+Due: 03/05/2026
+
+Paper A4 (box)             4      $18.50       $74.00
+Pens (pack of 50)          2       $9.00       $18.00
+
+Subtotal: $92.00
+Tax: $0.00
+Total: $92.00

@@ -1,0 +1,27 @@
+# Static site: no build step. Netlify serves the "web" folder.
+[build]
+  publish = "web"
+
+# Invoices never leave the browser, and this header enforces it: the page may only load
+# scripts, workers and files from this site, make no requests elsewhere, and cannot be framed.
+[[headers]]
+  for = "/"
+  [headers.values]
+    Content-Security-Policy = "default-src 'none'; script-src 'self'; worker-src 'self' blob:; style-src 'self'; img-src 'self' data:; font-src 'self' data:; connect-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "no-referrer"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+
+[[headers]]
+  for = "/index.html"
+  [headers.values]
+    Content-Security-Policy = "default-src 'none'; script-src 'self'; worker-src 'self' blob:; style-src 'self'; img-src 'self' data:; font-src 'self' data:; connect-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "no-referrer"
+
+# PDF.js worker must be served as JavaScript.
+[[headers]]
+  for = "/vendor/*"
+  [headers.values]
+    Content-Type = "text/javascript; charset=utf-8"
+    X-Content-Type-Options = "nosniff"
