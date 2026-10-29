@@ -17,7 +17,7 @@ def test_sample_invoices_load_and_metrics_match():
     assert not at.exception
     m = {x.label: x.value for x in at.metric}
     assert m["Invoices read"] == "4"
-    assert m["✅ OK"] == "1" and m["⚠️ Review"] == "1" and m["❌ Needs fixing"] == "2"
+    assert m["OK"] == "1" and m["Review"] == "1" and m["Needs fixing"] == "2"
 
 
 def test_errors_are_shown_to_the_user():
@@ -33,7 +33,7 @@ def test_pasted_text_is_processed():
     at.run()
     assert not at.exception
     m = {x.label: x.value for x in at.metric}
-    assert m["Invoices read"] == "1" and m["✅ OK"] == "1"
+    assert m["Invoices read"] == "1" and m["OK"] == "1"
 
 
 def test_nothing_selected_shows_guidance():

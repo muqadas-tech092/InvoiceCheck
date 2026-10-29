@@ -9,9 +9,8 @@ from invoicecheck.batch import csv_bytes, issues_frame, lines_frame, process, su
 from invoicecheck.pdf import UnreadablePdf, pdf_to_text
 
 ROOT = Path(__file__).parent
-ICON = {"OK": "✅", "Review": "⚠️", "Needs fixing": "❌"}
 
-st.set_page_config(page_title="InvoiceCheck", page_icon="🧾", layout="wide")
+st.set_page_config(page_title="InvoiceCheck", layout="wide")
 
 
 def collect_documents() -> tuple[list[tuple[str, str]], list[str]]:
@@ -36,7 +35,7 @@ def collect_documents() -> tuple[list[tuple[str, str]], list[str]]:
 
 
 def main() -> None:
-    st.title("🧾 InvoiceCheck")
+    st.title("InvoiceCheck")
     st.caption("Catch wrong totals, duplicate invoices and missing details before they reach your books. Works offline: nothing is sent anywhere.")
     docs, problems = collect_documents()
     for p in problems:
@@ -50,16 +49,16 @@ def main() -> None:
     counts = summary["status"].value_counts()
     c = st.columns(4)
     c[0].metric("Invoices read", len(results))
-    c[1].metric("✅ OK", int(counts.get("OK", 0)))
-    c[2].metric("⚠️ Review", int(counts.get("Review", 0)))
-    c[3].metric("❌ Needs fixing", int(counts.get("Needs fixing", 0)))
+    c[1].metric("OK", int(counts.get("OK", 0)))
+    c[2].metric("Review", int(counts.get("Review", 0)))
+    c[3].metric("Needs fixing", int(counts.get("Needs fixing", 0)))
 
     st.dataframe(summary, use_container_width=True, hide_index=True)
 
     st.subheader("Details")
     for r in results:
         inv = r.invoice
-        title = f"{ICON[r.status]} {inv.source}: {inv.vendor or 'unknown vendor'} · {inv.invoice_number or 'no number'} · {r.status}"
+        title = f"{r.status.upper()}  {inv.source}: {inv.vendor or 'unknown vendor'} · {inv.invoice_number or 'no number'}"
         with st.expander(title, expanded=r.status != "OK"):
             if not r.issues:
                 st.success("All checks passed: line items, subtotal, tax and total agree.")

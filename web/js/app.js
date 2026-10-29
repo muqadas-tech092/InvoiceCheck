@@ -5,7 +5,6 @@ import { pdfToText, UnreadablePdf } from "./pdf.js";
 
 const $ = (id) => document.getElementById(id);
 const SAMPLES = ["inv_clean.txt", "inv_wrong.txt", "inv_duplicate.txt", "inv_date.txt"];
-const ICON = { OK: "✅", Review: "⚠️", "Needs fixing": "❌" };
 const CLASS = { OK: "s-OK", Review: "s-Review", "Needs fixing": "s-Fix" };
 
 // Safe DOM builder: every string becomes a text node, so invoice text can never inject HTML.
@@ -66,16 +65,16 @@ async function refresh() {
   const results = processDocuments(docs);
   const count = (s) => results.filter((r) => r.status === s).length;
   $("metrics").append(
-    ...[["Invoices read", results.length], ["✅ OK", count("OK")], ["⚠️ Review", count("Review")], ["❌ Needs fixing", count("Needs fixing")]].map(([l, v]) =>
+    ...[["Invoices read", results.length], ["OK", count("OK")], ["Review", count("Review")], ["Needs fixing", count("Needs fixing")]].map(([l, v]) =>
       h("div", { class: "metric" }, h("small", {}, l), h("b", {}, v)))
   );
 
   const rows = summaryRows(results);
   $("summary").append(
     h("div", { class: "tablewrap" }, h("table", {},
-      h("thead", {}, h("tr", {}, SUMMARY_COLUMNS.map((c) => h("th", {}, c)))),
+      h("thead", {}, h("tr", {}, SUMMARY_COLUMNS.map((c) => h("th", {}, c.replace(/_/g, " "))))),
       h("tbody", {}, rows.map((r) => h("tr", {}, SUMMARY_COLUMNS.map((c) =>
-        h("td", c === "status" ? { class: CLASS[r.status] } : {}, r[c])))))))
+        h("td", {}, c === "status" ? h("span", { class: `pill ${CLASS[r.status]}` }, r[c]) : r[c])))))))
   );
 
   $("details").append(
@@ -83,7 +82,7 @@ async function refresh() {
     ...results.map((r) => {
       const inv = r.invoice;
       const card = h("details", { class: "card" },
-        h("summary", {}, `${ICON[r.status]} ${inv.source}: ${inv.vendor || "unknown vendor"} · ${inv.invoiceNumber || "no number"} · ${r.status}`),
+        h("summary", {}, h("span", { class: `pill ${CLASS[r.status]}` }, r.status), `${inv.source}: ${inv.vendor || "unknown vendor"} · ${inv.invoiceNumber || "no number"}`),
         h("div", { class: "body" },
           r.issues.length
             ? r.issues.map((i) => h("div", { class: i.severity === "error" ? "err" : "warn" }, i.message))
